@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -17,10 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.alaksion.qrcodereader.R
 import br.com.alaksion.qrcodereader.ui.success.components.ScanResultText
 import br.com.alaksion.qrcodereader.ui.theme.QrCodeReaderTheme
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.flow.collectLatest
 
 @Destination(
     route = "/success"
@@ -30,6 +32,27 @@ fun ReadSuccess(
     id: Int,
     code: String
 ) {
+    val viewModel = viewModel<SuccessViewModel>()
+
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.events.collectLatest { event ->
+            when (event) {
+                is SuccessVmEvents.SaveScanSuccess -> {}
+            }
+        }
+    }
+
+    ReadSuccessContent(
+        code = code
+    )
+
+}
+
+@Composable
+fun ReadSuccessContent(
+    code: String
+) {
+
     val scrollState = rememberScrollState()
     val clipManager = LocalClipboardManager.current
 
@@ -101,10 +124,11 @@ fun ReadSuccess(
                         bottom.linkTo(parent.bottom)
                     }
             ) {
-                Text("Save reading")
+                Text("Close")
             }
         }
     }
+
 }
 
 @Composable

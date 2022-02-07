@@ -32,16 +32,17 @@ fun ScanResultText(
             .clip(RoundedCornerShape(16.dp))
             .background(LightGrey)
             .padding(10.dp),
-        verticalAlignment = Alignment.Top,
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         IconButton(
             onClick = { onCopyToClickBoard(text) },
+            modifier = Modifier.align(Alignment.Top)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_copy),
                 contentDescription = null,
-                tint = DarkGrey
+                tint = DarkGrey,
             )
         }
         Spacer(modifier = Modifier.height(12.dp))

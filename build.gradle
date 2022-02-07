@@ -4,6 +4,7 @@ buildscript {
         camerax_version = "1.1.0-beta01"
         compose_destinations = "1.2.1-beta"
         hilt_version = "2.40.5"
+        room_version = "2.4.1"
     }
 
     dependencies {
