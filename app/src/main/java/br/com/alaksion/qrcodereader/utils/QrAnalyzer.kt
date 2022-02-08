@@ -3,7 +3,7 @@ package br.com.alaksion.qrcodereader.utils
 import android.graphics.ImageFormat.*
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import br.com.alaksion.qrcodereader.utils.extensions.toByteArray
+import br.com.alaksion.core_utils.extensions.toByteArray
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 
