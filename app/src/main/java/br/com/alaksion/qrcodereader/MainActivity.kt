@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import br.com.alaksion.qrcodereader.ui.NavGraphs
+import br.com.alaksion.qrcodereader.ui.providers.DimesionsProvider
 import br.com.alaksion.qrcodereader.ui.theme.QrCodeReaderTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +16,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             QrCodeReaderTheme {
-                DestinationsNavHost(navGraph = NavGraphs.root)
+                DimesionsProvider {
+                    DestinationsNavHost(navGraph = NavGraphs.root)
+                }
             }
         }
     }

@@ -3,4 +3,6 @@
     <string name="read_success">Everything is done!</string>
     <string name="read_success_description">Your code translates to:</string>
     <string name="copy_to_clipboard">Text copied to clipboard</string>
+    <string name="text_close">Close</string>
+    <string name="save_reading">Save Reading</string>
 </resources>

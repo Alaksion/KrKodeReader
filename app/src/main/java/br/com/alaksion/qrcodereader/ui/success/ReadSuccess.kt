@@ -17,8 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.alaksion.qrcodereader.R
+import br.com.alaksion.qrcodereader.ui.providers.LocalDimesions
 import br.com.alaksion.qrcodereader.ui.success.components.ScanResultText
 import br.com.alaksion.qrcodereader.ui.theme.QrCodeReaderTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -32,7 +33,7 @@ fun ReadSuccess(
     id: Int,
     code: String
 ) {
-    val viewModel = viewModel<SuccessViewModel>()
+    val viewModel = hiltViewModel<SuccessViewModel>()
 
     LaunchedEffect(key1 = viewModel) {
         viewModel.events.collectLatest { event ->
@@ -43,16 +44,20 @@ fun ReadSuccess(
     }
 
     ReadSuccessContent(
-        code = code
+        code = code,
+        onClickClose = {},
+        onClickSave = {}
     )
 
 }
 
 @Composable
 fun ReadSuccessContent(
-    code: String
+    code: String,
+    onClickSave: () -> Unit,
+    onClickClose: () -> Unit
 ) {
-
+    val dimesions = LocalDimesions.current
     val scrollState = rememberScrollState()
     val clipManager = LocalClipboardManager.current
 
@@ -64,9 +69,9 @@ fun ReadSuccessContent(
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = dimesions.paddingMedium)
         ) {
-            val (content, button) = createRefs()
+            val (content, buttons) = createRefs()
 
             Column(
                 modifier = Modifier
@@ -74,7 +79,7 @@ fun ReadSuccessContent(
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                         top.linkTo(parent.top)
-                        bottom.linkTo(button.top)
+                        bottom.linkTo(buttons.top)
                         height = Dimension.fillToConstraints
                     },
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -87,7 +92,7 @@ fun ReadSuccessContent(
                         .size(200.dp),
                     tint = MaterialTheme.colors.primary
                 )
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(dimesions.paddingMedium))
                 Text(
                     text = stringResource(id = R.string.read_success),
                     style = MaterialTheme.typography.h4.copy(
@@ -95,36 +100,51 @@ fun ReadSuccessContent(
                         textAlign = TextAlign.Center
                     )
                 )
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(dimesions.paddingSmall))
                 Text(
                     text = stringResource(id = R.string.read_success_description),
                     style = MaterialTheme.typography.body1.copy(
                         textAlign = TextAlign.Center,
                     )
                 )
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(dimesions.paddingSmall))
                 ScanResultText(
                     scrollState = scrollState,
                     text = code,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 20.dp),
+                        .padding(bottom = dimesions.paddingMedium),
                     onCopyToClickBoard = { copyToClipboard(it) }
                 )
             }
-            Button(
-                onClick = { /*TODO*/ },
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 20.dp)
-                    .height(48.dp)
-                    .constrainAs(button) {
+                    .constrainAs(buttons) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                     }
+                    .padding(bottom = dimesions.paddingMedium)
             ) {
-                Text("Close")
+                Button(
+                    onClick = { onClickSave() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = dimesions.paddingSmall)
+                        .height(dimesions.acessibilityHeight)
+
+                ) {
+                    Text(stringResource(id = R.string.save_reading))
+                }
+                TextButton(
+                    onClick = { onClickClose() },
+                    modifier = Modifier
+                        .height(dimesions.acessibilityHeight)
+                        .fillMaxWidth()
+                ) {
+                    Text(stringResource(id = R.string.text_close))
+                }
             }
         }
     }
