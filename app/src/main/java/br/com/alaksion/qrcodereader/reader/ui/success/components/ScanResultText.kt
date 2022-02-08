@@ -16,10 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.com.alaksion.qrcodereader.R
 import br.com.alaksion.core_ui.theme.DarkGrey
 import br.com.alaksion.core_ui.theme.LightGrey
 import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
+import br.com.alaksion.qrcodereader.R
 
 @Composable
 fun ScanResultText(
@@ -31,10 +31,9 @@ fun ScanResultText(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(br.com.alaksion.core_ui.theme.LightGrey)
+            .background(LightGrey)
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         IconButton(
             onClick = { onCopyToClickBoard(text) },
@@ -43,7 +42,7 @@ fun ScanResultText(
             Icon(
                 painter = painterResource(id = R.drawable.ic_copy),
                 contentDescription = null,
-                tint = br.com.alaksion.core_ui.theme.DarkGrey,
+                tint = DarkGrey,
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
@@ -54,7 +53,7 @@ fun ScanResultText(
                 .verticalScroll(scrollState),
             style = MaterialTheme.typography.body1.copy(
                 fontWeight = FontWeight.Bold,
-                color = br.com.alaksion.core_ui.theme.DarkGrey
+                color = DarkGrey
             )
         )
     }
@@ -63,7 +62,7 @@ fun ScanResultText(
 @Preview
 @Composable
 private fun ScanResultTextPreview() {
-    br.com.alaksion.core_ui.theme.QrCodeReaderTheme() {
+    QrCodeReaderTheme() {
         Scaffold() {
             ScanResultText(
                 text = stringResource(id = R.string.lorem_ipsum),

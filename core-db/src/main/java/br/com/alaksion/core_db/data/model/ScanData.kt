@@ -9,7 +9,7 @@ import java.util.*
 
 @Entity
 data class ScanData(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "code") val code: String,
     @ColumnInfo(name = "created_at") val createdAt: String,
     @ColumnInfo(name = "title") val title: String
@@ -18,6 +18,5 @@ data class ScanData(
 fun CreateScanRequest.mapToData() = ScanData(
     code = this.code,
     title = this.title,
-    id = 0,
     createdAt = Date().formatCurrentDate()
 )

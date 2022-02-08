@@ -47,7 +47,10 @@ fun QrReader(
                     ReadSuccessDestination(
                         id = 1,
                         code = event.scanResult.text,
-                    )
+                    ),
+                    builder = {
+                        popUpTo(ReadSuccessDestination.route)
+                    }
                 )
             }
         }

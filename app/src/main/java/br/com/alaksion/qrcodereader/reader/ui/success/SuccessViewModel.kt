@@ -34,6 +34,7 @@ class SuccessViewModel @Inject constructor(
                     title = title
                 )
             )
+            _events.emit(SuccessVmEvents.SaveScanSuccess)
         }
     }
 

@@ -38,22 +38,31 @@ fun ReadSuccess(
     val viewModel = hiltViewModel<SuccessViewModel>()
     var backHandlerEnabled by remember { mutableStateOf(true) }
 
+    fun goToHome() {
+        navigator.navigate(
+            direction = HomeScreenDestination,
+            builder = {
+                launchSingleTop = true
+            }
+        )
+    }
+
     LaunchedEffect(key1 = viewModel) {
         viewModel.events.collectLatest { event ->
             when (event) {
                 is SuccessVmEvents.SaveScanSuccess -> {
                     backHandlerEnabled = false
-                    navigator.clearBackStack(HomeScreenDestination)
+                    goToHome()
                 }
                 is SuccessVmEvents.CloseScan -> {
                     backHandlerEnabled = false
-                    navigator.clearBackStack(HomeScreenDestination)
+                    goToHome()
                 }
             }
         }
     }
 
-    BackHandler(onBack = { }, enabled = backHandlerEnabled)
+    BackHandler(onBack = { goToHome() }, enabled = backHandlerEnabled)
 
     ReadSuccessContent(
         code = code,
