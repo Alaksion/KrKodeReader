@@ -6,4 +6,6 @@ interface DatabaseDataSource {
 
     suspend fun storeScan(scan: ScanData)
 
+    suspend fun getScans(): List<ScanData>
+
 }

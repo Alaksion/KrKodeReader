@@ -1,4 +1,4 @@
-package br.com.alaksion.qrcodereader.reader.ui.success.components
+package br.com.alaksion.qrcodereader.success.components
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background

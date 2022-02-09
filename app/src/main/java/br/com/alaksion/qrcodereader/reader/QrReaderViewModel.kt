@@ -1,4 +1,4 @@
-package br.com.alaksion.qrcodereader.reader.ui.reader
+package br.com.alaksion.qrcodereader.reader
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

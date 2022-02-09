@@ -1,4 +1,4 @@
-package br.com.alaksion.qrcodereader.reader.ui.reader
+package br.com.alaksion.qrcodereader.reader
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -49,7 +49,9 @@ fun QrReader(
                         code = event.scanResult.text,
                     ),
                     builder = {
-                        popUpTo(ReadSuccessDestination.route)
+                        popUpTo(ReadSuccessDestination.route) {
+                            inclusive = true
+                        }
                     }
                 )
             }
@@ -65,7 +67,7 @@ fun QrReader(
         )
     }
 
-    Scaffold() {
+    Scaffold {
         if (hasCameraPermission) QrReaderPermissionGranted { viewModel.onScanSuccess(it) }
         else QrReaderRequestPermission(onUpdateCameraPermission = { hasCameraPermission = it })
     }
@@ -78,6 +80,12 @@ fun QrReaderPermissionGranted(
     val lifecycle = LocalLifecycleOwner.current
     val context = LocalContext.current
     val cameraProvider = remember { ProcessCameraProvider.getInstance(context) }
+
+    DisposableEffect(key1 = cameraProvider) {
+        onDispose {
+            cameraProvider.get().unbindAll()
+        }
+    }
 
     Column(
         modifier = Modifier

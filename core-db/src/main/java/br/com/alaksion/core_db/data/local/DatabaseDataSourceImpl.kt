@@ -13,4 +13,8 @@ class DatabaseDataSourceImpl @Inject constructor(
         database.qrScanDao().create(scan)
     }
 
+    override suspend fun getScans(): List<ScanData> {
+        return database.qrScanDao().index()
+    }
+
 }

@@ -1,10 +1,10 @@
-package br.com.alaksion.qrcodereader.reader.ui.success
+package br.com.alaksion.qrcodereader.success
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.alaksion.core_ui.providers.LocalDimesions
 import br.com.alaksion.qrcodereader.R
 import br.com.alaksion.qrcodereader.destinations.HomeScreenDestination
-import br.com.alaksion.qrcodereader.reader.ui.success.components.ScanResultText
+import br.com.alaksion.qrcodereader.success.components.ScanResultText
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
@@ -36,12 +36,14 @@ fun ReadSuccess(
     navigator: DestinationsNavigator
 ) {
     val viewModel = hiltViewModel<SuccessViewModel>()
-    var backHandlerEnabled by remember { mutableStateOf(true) }
 
     fun goToHome() {
         navigator.navigate(
             direction = HomeScreenDestination,
             builder = {
+                popUpTo(HomeScreenDestination.route) {
+                    inclusive = true
+                }
                 launchSingleTop = true
             }
         )
@@ -51,18 +53,14 @@ fun ReadSuccess(
         viewModel.events.collectLatest { event ->
             when (event) {
                 is SuccessVmEvents.SaveScanSuccess -> {
-                    backHandlerEnabled = false
                     goToHome()
                 }
                 is SuccessVmEvents.CloseScan -> {
-                    backHandlerEnabled = false
                     goToHome()
                 }
             }
         }
     }
-
-    BackHandler(onBack = { goToHome() }, enabled = backHandlerEnabled)
 
     ReadSuccessContent(
         code = code,
