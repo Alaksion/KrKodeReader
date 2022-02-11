@@ -7,9 +7,16 @@ import androidx.compose.ui.unit.dp
 
 object Dimesions {
 
+    //Essential
     val acessibilityHeight = 48.dp
+
+    // Padding
     val paddingMedium = 20.dp
     val paddingSmall = 10.dp
+
+    //Separators
+    val smallSeparator = 5.dp
+    val mediumSeparator = 10.dp
 
 }
 
