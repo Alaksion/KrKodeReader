@@ -11,6 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +23,7 @@ import br.com.alaksion.core_ui.providers.LocalDimesions
 import br.com.alaksion.core_ui.theme.DarkGrey
 import br.com.alaksion.core_ui.theme.Orange
 import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
+import br.com.alaksion.qrcodereader.R
 
 @Composable
 fun ScanCard(
@@ -30,6 +34,11 @@ fun ScanCard(
     onDeleteClick: (Int) -> Unit
 ) {
     val dimensions = LocalDimesions.current
+    val clipManager = LocalClipboardManager.current
+
+    fun copyToClipboard(value: String) {
+        clipManager.setText(AnnotatedString(value))
+    }
 
     Box(
         modifier = modifier
@@ -55,25 +64,41 @@ fun ScanCard(
                     modifier = Modifier.fillMaxWidth(),
                     overflow = TextOverflow.Ellipsis
                 )
-
-                Spacer(Modifier.height(dimensions.mediumSeparator))
+                Spacer(Modifier.height(dimensions.smallSeparator))
+                Text(
+                    text = scan.code,
+                    style = MaterialTheme.typography.body2.copy(
+                        color = DarkGrey
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(dimensions.smallSeparator))
                 Text(
                     text = scan.createdAt,
-                    style = MaterialTheme.typography.body1.copy(
+                    style = MaterialTheme.typography.caption.copy(
                         fontWeight = FontWeight.Bold,
+                        color = DarkGrey
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { onDeleteClick(scan.id) }) {
                     Icon(
                         imageVector = Icons.Outlined.Delete,
                         contentDescription = null,
                         tint = DarkGrey
+                    )
+                }
+                IconButton(onClick = { copyToClipboard(scan.code) }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_copy),
+                        contentDescription = null,
+                        tint = DarkGrey,
                     )
                 }
             }
