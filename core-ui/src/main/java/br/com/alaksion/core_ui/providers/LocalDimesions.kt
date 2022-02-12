@@ -9,6 +9,7 @@ object Dimesions {
 
     //Essential
     val acessibilityHeight = 48.dp
+    val bottomSheetButton = 64.dp
 
     // Padding
     val paddingMedium = 20.dp
@@ -17,6 +18,7 @@ object Dimesions {
     //Separators
     val smallSeparator = 5.dp
     val mediumSeparator = 10.dp
+    val largeSeparator = 20.dp
 
 }
 

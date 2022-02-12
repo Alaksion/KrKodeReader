@@ -5,8 +5,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -19,13 +22,17 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.alaksion.core_ui.providers.LocalDimesions
+import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
 import br.com.alaksion.qrcodereader.R
 import br.com.alaksion.qrcodereader.destinations.HomeScreenDestination
 import br.com.alaksion.qrcodereader.success.components.ScanResultText
+import br.com.alaksion.qrcodereader.success.components.ScanSaveBottomSheet
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @Destination(
     route = "/success"
 )
@@ -65,26 +72,55 @@ fun ReadSuccess(
     ReadSuccessContent(
         code = code,
         onClickClose = { viewModel.closeScan() },
-        onClickSave = { viewModel.saveScan(code = code, title = "title") }
+        onClickSave = { viewModel.saveScan(code = code) },
+        scanTitle = viewModel.scanTitle.collectAsState().value,
+        onChangeScanTitle = { viewModel.onChangeTitle(it) },
+        isButtonEnabled = viewModel.isSaveButtonEnabled.collectAsState().value
     )
 
 }
 
 @Composable
+@ExperimentalMaterialApi
 fun ReadSuccessContent(
     code: String,
     onClickSave: () -> Unit,
-    onClickClose: () -> Unit
+    onClickClose: () -> Unit,
+    onChangeScanTitle: (String) -> Unit,
+    scanTitle: String,
+    isButtonEnabled: Boolean,
 ) {
     val dimesions = LocalDimesions.current
     val scrollState = rememberScrollState()
     val clipManager = LocalClipboardManager.current
+    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scope = rememberCoroutineScope()
 
     fun copyToClipboard(value: String) {
         clipManager.setText(AnnotatedString(value))
     }
 
-    Scaffold {
+    fun showBotttomsheet() {
+        scope.launch {
+            scaffoldState.bottomSheetState.expand()
+        }
+    }
+
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetContent = {
+            ScanSaveBottomSheet(
+                onChangeScanTitle = onChangeScanTitle,
+                scanTitle = scanTitle,
+                onClickSave = onClickSave,
+                isSaveButtonEnabled = isButtonEnabled,
+                sheetState = scaffoldState.bottomSheetState,
+                scope = scope
+            )
+        },
+        sheetPeekHeight = 0.dp,
+        sheetShape = RectangleShape
+    ) {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
@@ -144,10 +180,9 @@ fun ReadSuccessContent(
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                     }
-                    .padding(bottom = dimesions.paddingMedium)
             ) {
                 Button(
-                    onClick = { onClickSave() },
+                    onClick = { showBotttomsheet() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = dimesions.paddingSmall)
@@ -171,9 +206,10 @@ fun ReadSuccessContent(
 }
 
 @Composable
+@ExperimentalMaterialApi
 @Preview
 fun ReadSuccessPreview() {
-    br.com.alaksion.core_ui.theme.QrCodeReaderTheme() {
-        ReadSuccessContent("code", {}, {})
+    QrCodeReaderTheme() {
+        ReadSuccessContent("code", {}, {}, {}, "", true)
     }
 }

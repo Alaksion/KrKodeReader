@@ -6,7 +6,9 @@ import br.com.alaksion.core_db.domain.model.CreateScanRequest
 import br.com.alaksion.core_db.domain.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,15 +25,20 @@ class SuccessViewModel @Inject constructor(
     private val _events = MutableSharedFlow<SuccessVmEvents>()
     val events = _events.asSharedFlow()
 
+    private val _scanTitle = MutableStateFlow("New Scan")
+    val scanTitle = _scanTitle.asStateFlow()
+
+    private val _isSaveButtonEnabled = MutableStateFlow(true)
+    val isSaveButtonEnabled = _isSaveButtonEnabled.asStateFlow()
+
     fun saveScan(
         code: String,
-        title: String
     ) {
         viewModelScope.launch {
             repository.storeScan(
                 CreateScanRequest(
                     code = code,
-                    title = title
+                    title = _scanTitle.value
                 )
             )
             _events.emit(SuccessVmEvents.SaveScanSuccess)
@@ -42,6 +49,11 @@ class SuccessViewModel @Inject constructor(
         viewModelScope.launch {
             _events.emit(SuccessVmEvents.CloseScan)
         }
+    }
+
+    fun onChangeTitle(value: String) {
+        _scanTitle.value = value
+        _isSaveButtonEnabled.value = value.isNotEmpty()
     }
 
 }

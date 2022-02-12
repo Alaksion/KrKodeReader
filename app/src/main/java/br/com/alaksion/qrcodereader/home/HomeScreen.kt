@@ -27,6 +27,7 @@ import br.com.alaksion.qrcodereader.home.components.ScanCard
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@ExperimentalMaterialApi
 @Destination(
     start = true,
     route = "/"
