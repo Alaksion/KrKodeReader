@@ -3,7 +3,6 @@ package br.com.alaksion.qrcodereader.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.alaksion.core_db.domain.repository.DatabaseRepository
-import br.com.alaksion.qrcodereader.home.HomeScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,9 +18,17 @@ class HomeViewModel @Inject constructor(
     val scans = _scans.asStateFlow()
 
     init {
+        getScans()
+    }
+
+    private fun getScans() {
         viewModelScope.launch {
             _scans.value = HomeScreenState.Ready(repository.listScans())
         }
+    }
+
+    fun notifyScanRegistered() {
+        getScans()
     }
 
 }
