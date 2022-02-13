@@ -3,17 +3,16 @@ package br.com.alaksion.qrcodereader.success
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.alaksion.core_db.domain.model.CreateScanRequest
+import br.com.alaksion.core_db.domain.model.Scan
 import br.com.alaksion.core_db.domain.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed class SuccessVmEvents {
-    object SaveScanSuccess : SuccessVmEvents()
+    data class SaveScanSuccess(val savedScan: Scan) : SuccessVmEvents()
     object CloseScan : SuccessVmEvents()
 }
 
@@ -34,19 +33,20 @@ class SuccessViewModel @Inject constructor(
     fun saveScan(
         code: String,
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.storeScan(
                 CreateScanRequest(
                     code = code,
                     title = _scanTitle.value
                 )
-            )
-            _events.emit(SuccessVmEvents.SaveScanSuccess)
+            ).collect {
+                _events.emit(SuccessVmEvents.SaveScanSuccess(it))
+            }
         }
     }
 
     fun closeScan() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _events.emit(SuccessVmEvents.CloseScan)
         }
     }

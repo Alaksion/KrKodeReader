@@ -60,6 +60,10 @@ fun QrReader(
         }
     }
 
+    SideEffect {
+
+    }
+
     var hasCameraPermission by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(

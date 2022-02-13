@@ -68,7 +68,7 @@ fun ReadSuccess(
             when (event) {
                 is SuccessVmEvents.SaveScanSuccess -> {
                     goToHome()
-                    homeViewModel.notifyScanRegistered()
+                    homeViewModel.notifyScanRegistered(event.savedScan)
                 }
                 is SuccessVmEvents.CloseScan -> {
                     goToHome()
