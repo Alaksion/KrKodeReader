@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -51,16 +48,18 @@ fun ReadSuccess(
     val viewModel = hiltViewModel<SuccessViewModel>()
     val homeViewModel = hiltViewModel<HomeViewModel>(hostActivity)
 
-    fun goToHome() {
-        navigator.navigate(
-            direction = HomeScreenDestination,
-            builder = {
-                popUpTo(HomeScreenDestination.route) {
-                    inclusive = true
+    val goToHome: () -> Unit = remember {
+        {
+            navigator.navigate(
+                direction = HomeScreenDestination,
+                builder = {
+                    popUpTo(HomeScreenDestination.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
                 }
-                launchSingleTop = true
-            }
-        )
+            )
+        }
     }
 
     LaunchedEffect(key1 = viewModel) {
@@ -106,8 +105,10 @@ fun ReadSuccessContent(
     val bottomsheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
-    fun copyToClipboard(value: String) {
-        clipManager.setText(AnnotatedString(value))
+    val copyToClipboard: (String) -> Unit = remember {
+        {
+            clipManager.setText(AnnotatedString(it))
+        }
     }
 
     ModalBottomSheetLayout(

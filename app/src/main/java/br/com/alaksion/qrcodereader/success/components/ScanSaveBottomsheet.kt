@@ -1,6 +1,8 @@
 package br.com.alaksion.qrcodereader.success.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -9,7 +11,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import br.com.alaksion.core_ui.providers.LocalDimesions
 import br.com.alaksion.qrcodereader.R
 import kotlinx.coroutines.launch
@@ -26,6 +30,7 @@ fun ScanSaveBottomSheet(
 ) {
     val scope = rememberCoroutineScope()
     val dimensions = LocalDimesions.current
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = modifier
@@ -42,7 +47,13 @@ fun ScanSaveBottomSheet(
             onValueChange = onChangeScanTitle,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = dimensions.paddingMedium)
+                .padding(horizontal = dimensions.paddingMedium),
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            ),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            )
         )
         Spacer(modifier = Modifier.height(dimensions.largeSeparator))
         Button(
