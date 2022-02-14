@@ -192,6 +192,7 @@ fun ReadSuccessContent(
                                 end.linkTo(parent.end)
                                 bottom.linkTo(parent.bottom)
                             }
+                            .padding(bottom = dimesions.paddingSmall)
                     ) {
                         Button(
                             onClick = { scope.launch { bottomsheetState.show() } },
