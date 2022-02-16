@@ -1,4 +1,4 @@
-package br.com.alaksion.core_ui.providers
+package br.com.alaksion.core_ui.providers.dimensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -7,18 +7,12 @@ import androidx.compose.ui.unit.dp
 
 object Dimesions {
 
+    val Padding = Padding()
+    val Separators = Separators()
+
     //Essential
-    val acessibilityHeight = 48.dp
+    val accessibilityHeight = 48.dp
     val bottomSheetButton = 64.dp
-
-    // Padding
-    val paddingMedium = 20.dp
-    val paddingSmall = 10.dp
-
-    //Separators
-    val smallSeparator = 5.dp
-    val mediumSeparator = 10.dp
-    val largeSeparator = 20.dp
 
 }
 

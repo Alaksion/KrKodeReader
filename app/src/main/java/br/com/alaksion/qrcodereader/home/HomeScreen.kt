@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.alaksion.core_db.domain.model.Scan
-import br.com.alaksion.core_ui.providers.LocalDimesions
+import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.core_ui.theme.LightGrey
 import br.com.alaksion.core_ui.theme.Orange
 import br.com.alaksion.core_utils.extensions.isEven
@@ -57,6 +57,7 @@ internal fun HomeScreenContent(
             onClickNewScan = onClickNewScan
         )
         is HomeScreenState.Loading -> HomeScreenLoading()
+        is HomeScreenState.Empty -> HomeScreenEmpty()
     }
 }
 
@@ -74,28 +75,24 @@ fun HomeScreenReady(
             }
         }
     ) {
-        if (items.isNotEmpty()) {
-            val listState = rememberLazyListState()
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it)
-                    .padding(horizontal = dimesions.paddingMedium),
-                state = listState,
-                verticalArrangement = Arrangement.spacedBy(dimesions.mediumSeparator)
-            ) {
-                itemsIndexed(items) { index, item ->
-                    val color = if (index.isEven()) Orange.copy(0.5f) else LightGrey.copy(0.5f)
-                    ScanCard(
-                        scan = item,
-                        cardColor = color,
-                        onCardClick = {},
-                        onDeleteClick = {}
-                    )
-                }
+        val listState = rememberLazyListState()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .padding(horizontal = dimesions.Padding.medium),
+            state = listState,
+            verticalArrangement = Arrangement.spacedBy(dimesions.Separators.medium)
+        ) {
+            itemsIndexed(items) { index, item ->
+                val color = if (index.isEven()) Orange.copy(0.5f) else LightGrey.copy(0.5f)
+                ScanCard(
+                    scan = item,
+                    cardColor = color,
+                    onCardClick = {},
+                    onDeleteClick = {}
+                )
             }
-        } else {
-            Text("No scans")
         }
     }
 }
@@ -106,10 +103,17 @@ fun HomeScreenLoading() {
 
     Scaffold() {
         Box(
-            modifier = Modifier.padding(horizontal = dimesions.paddingMedium),
+            modifier = Modifier.padding(horizontal = dimesions.Padding.medium),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
+    }
+}
+
+@Composable
+fun HomeScreenEmpty() {
+    Scaffold() {
+        Text("No scans")
     }
 }

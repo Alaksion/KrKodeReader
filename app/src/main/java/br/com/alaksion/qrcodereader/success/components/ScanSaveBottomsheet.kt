@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import br.com.alaksion.core_ui.providers.LocalDimesions
+import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.core_ui.theme.DarkGrey
 import br.com.alaksion.qrcodereader.R
 import kotlinx.coroutines.launch
@@ -57,16 +57,16 @@ fun ScanSaveBottomSheet(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = dimensions.paddingMedium),
+                .padding(horizontal = dimensions.Padding.medium),
         )
-        Spacer(modifier = Modifier.height(dimensions.largeSeparator))
+        Spacer(modifier = Modifier.height(dimensions.Separators.large))
         OutlinedTextField(
             label = { Text(stringResource(id = R.string.save_scan_bottomsheet_textfield_label)) },
             value = scanTitle,
             onValueChange = onChangeScanTitle,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = dimensions.paddingMedium),
+                .padding(horizontal = dimensions.Padding.medium),
             keyboardActions = KeyboardActions(
                 onDone = { focusManager.clearFocus() }
             ),
@@ -74,7 +74,7 @@ fun ScanSaveBottomSheet(
                 imeAction = ImeAction.Done
             )
         )
-        Spacer(modifier = Modifier.height(dimensions.largeSeparator))
+        Spacer(modifier = Modifier.height(dimensions.Separators.large))
         Button(
             onClick = {
                 scope.launch {
@@ -85,8 +85,8 @@ fun ScanSaveBottomSheet(
             enabled = isSaveButtonEnabled,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensions.acessibilityHeight)
-                .padding(horizontal = dimensions.paddingMedium),
+                .height(dimensions.accessibilityHeight)
+                .padding(horizontal = dimensions.Padding.medium),
         ) {
             Text(stringResource(id = R.string.text_save))
         }
@@ -94,11 +94,11 @@ fun ScanSaveBottomSheet(
             onClick = { dismiss() },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensions.acessibilityHeight)
-                .padding(horizontal = dimensions.paddingMedium)
+                .height(dimensions.accessibilityHeight)
+                .padding(horizontal = dimensions.Padding.medium)
         ) {
             Text(stringResource(id = R.string.text_close))
         }
-        Spacer(modifier = Modifier.height(dimensions.smallSeparator))
+        Spacer(modifier = Modifier.height(dimensions.Separators.small))
     }
 }

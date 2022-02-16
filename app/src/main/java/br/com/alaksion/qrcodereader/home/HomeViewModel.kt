@@ -26,18 +26,26 @@ class HomeViewModel @Inject constructor(
 
     private fun getScans() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.listScans().collect {
-                _scans.value = HomeScreenState.Ready(it)
+            repository.listScans().collect { scansList ->
+                _scans.value =
+                    if (scansList.isEmpty()) HomeScreenState.Empty
+                    else HomeScreenState.Ready(scansList)
             }
         }
     }
 
     fun notifyScanRegistered(scan: Scan) {
-        val currentState = _scans.value as HomeScreenState.Ready
-        val list = currentState.scans.toMutableList()
-
-        list.add(scan)
-        _scans.value = HomeScreenState.Ready(list)
+        when (val currentState = _scans.value) {
+            is HomeScreenState.Ready -> {
+                val newList = mutableListOf<Scan>()
+                newList.addAll(currentState.scans)
+                newList.add(scan)
+                _scans.value = HomeScreenState.Ready(newList)
+            }
+            is HomeScreenState.Loading, is HomeScreenState.Empty -> {
+                _scans.value = HomeScreenState.Ready((listOf(scan)))
+            }
+        }
     }
 
 }

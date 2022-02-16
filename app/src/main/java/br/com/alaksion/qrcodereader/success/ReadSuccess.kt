@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.alaksion.core_ui.providers.LocalDimesions
+import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
 import br.com.alaksion.qrcodereader.MainActivity
 import br.com.alaksion.qrcodereader.R
@@ -114,8 +114,8 @@ fun ReadSuccessContent(
     ModalBottomSheetLayout(
         modifier = Modifier.imePadding(),
         sheetShape = RoundedCornerShape(
-            topStart = dimesions.paddingSmall,
-            topEnd = dimesions.paddingSmall,
+            topStart = dimesions.Padding.small,
+            topEnd = dimesions.Padding.small,
             bottomEnd = 0.dp,
             bottomStart = 0.dp
         ),
@@ -136,7 +136,7 @@ fun ReadSuccessContent(
                 ConstraintLayout(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = dimesions.paddingMedium)
+                        .padding(horizontal = dimesions.Padding.medium)
                 ) {
                     val (content, buttons) = createRefs()
 
@@ -159,7 +159,7 @@ fun ReadSuccessContent(
                                 .size(200.dp),
                             tint = MaterialTheme.colors.primary
                         )
-                        Spacer(modifier = Modifier.height(dimesions.paddingMedium))
+                        Spacer(modifier = Modifier.height(dimesions.Padding.medium))
                         Text(
                             text = stringResource(id = R.string.read_success),
                             style = MaterialTheme.typography.h4.copy(
@@ -167,20 +167,20 @@ fun ReadSuccessContent(
                                 textAlign = TextAlign.Center
                             )
                         )
-                        Spacer(modifier = Modifier.height(dimesions.paddingSmall))
+                        Spacer(modifier = Modifier.height(dimesions.Padding.small))
                         Text(
                             text = stringResource(id = R.string.read_success_description),
                             style = MaterialTheme.typography.body1.copy(
                                 textAlign = TextAlign.Center,
                             )
                         )
-                        Spacer(modifier = Modifier.height(dimesions.paddingSmall))
+                        Spacer(modifier = Modifier.height(dimesions.Padding.small))
                         ScanResultText(
                             scrollState = scrollState,
                             text = code,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = dimesions.paddingMedium),
+                                .padding(bottom = dimesions.Padding.medium),
                             onCopyToClickBoard = { copyToClipboard(it) }
                         )
                     }
@@ -192,14 +192,14 @@ fun ReadSuccessContent(
                                 end.linkTo(parent.end)
                                 bottom.linkTo(parent.bottom)
                             }
-                            .padding(bottom = dimesions.paddingSmall)
+                            .padding(bottom = dimesions.Padding.small)
                     ) {
                         Button(
                             onClick = { scope.launch { bottomsheetState.show() } },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = dimesions.paddingSmall)
-                                .height(dimesions.acessibilityHeight)
+                                .padding(bottom = dimesions.Padding.small)
+                                .height(dimesions.accessibilityHeight)
 
                         ) {
                             Text(stringResource(id = R.string.save_reading))
@@ -207,7 +207,7 @@ fun ReadSuccessContent(
                         TextButton(
                             onClick = { onClickClose() },
                             modifier = Modifier
-                                .height(dimesions.acessibilityHeight)
+                                .height(dimesions.accessibilityHeight)
                                 .fillMaxWidth()
                         ) {
                             Text(stringResource(id = R.string.text_close))

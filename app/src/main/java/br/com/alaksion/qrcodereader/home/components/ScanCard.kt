@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import br.com.alaksion.core_db.domain.model.Scan
-import br.com.alaksion.core_ui.providers.LocalDimesions
+import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.core_ui.theme.DarkGrey
 import br.com.alaksion.core_ui.theme.Orange
 import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
@@ -48,7 +48,7 @@ fun ScanCard(
             .clickable {
                 onCardClick(scan.id)
             }
-            .padding(all = dimensions.paddingSmall),
+            .padding(all = dimensions.Padding.small),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -64,7 +64,7 @@ fun ScanCard(
                     modifier = Modifier.fillMaxWidth(),
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(Modifier.height(dimensions.smallSeparator))
+                Spacer(Modifier.height(dimensions.Separators.small))
                 Text(
                     text = scan.code,
                     style = MaterialTheme.typography.body2.copy(
@@ -73,7 +73,7 @@ fun ScanCard(
                     modifier = Modifier.fillMaxWidth(),
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(Modifier.height(dimensions.smallSeparator))
+                Spacer(Modifier.height(dimensions.Separators.small))
                 Text(
                     text = scan.createdAt,
                     style = MaterialTheme.typography.caption.copy(
