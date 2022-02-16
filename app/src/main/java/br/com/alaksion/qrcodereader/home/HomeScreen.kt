@@ -1,28 +1,31 @@
 package br.com.alaksion.qrcodereader.home
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.alaksion.core_db.domain.model.Scan
 import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
+import br.com.alaksion.core_ui.theme.DarkGrey
 import br.com.alaksion.core_ui.theme.LightGrey
 import br.com.alaksion.core_ui.theme.Orange
 import br.com.alaksion.core_utils.extensions.isEven
 import br.com.alaksion.qrcodereader.MainActivity
+import br.com.alaksion.qrcodereader.R
 import br.com.alaksion.qrcodereader.destinations.QrReaderDestination
+import br.com.alaksion.qrcodereader.home.components.HomeFab
 import br.com.alaksion.qrcodereader.home.components.ScanCard
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -57,7 +60,7 @@ internal fun HomeScreenContent(
             onClickNewScan = onClickNewScan
         )
         is HomeScreenState.Loading -> HomeScreenLoading()
-        is HomeScreenState.Empty -> HomeScreenEmpty()
+        is HomeScreenState.Empty -> HomeScreenEmpty(onClickNewScan)
     }
 }
 
@@ -70,9 +73,7 @@ fun HomeScreenReady(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { onClickNewScan() }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = null)
-            }
+            HomeFab(onClick = { onClickNewScan() })
         }
     ) {
         val listState = rememberLazyListState()
@@ -112,8 +113,42 @@ fun HomeScreenLoading() {
 }
 
 @Composable
-fun HomeScreenEmpty() {
-    Scaffold() {
-        Text("No scans")
+fun HomeScreenEmpty(
+    onClickNewScan: () -> Unit
+) {
+    val dimensions = LocalDimesions.current
+
+    Scaffold(
+        floatingActionButton = { HomeFab(onClick = { onClickNewScan() }) }
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(dimensions.Padding.medium)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.img_empty_list),
+                contentDescription = null
+            )
+            Spacer(Modifier.height(dimensions.Separators.medium))
+            Text(
+                text = stringResource(id = R.string.home_empty_title),
+                style = MaterialTheme.typography.body1.copy(
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(Modifier.height(dimensions.Separators.small))
+            Text(
+                text = stringResource(id = R.string.home_empty_description),
+                style = MaterialTheme.typography.body2.copy(
+                    color = DarkGrey,
+                    textAlign = TextAlign.Center
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }

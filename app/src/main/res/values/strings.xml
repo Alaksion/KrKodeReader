@@ -5,13 +5,17 @@
     <string name="copy_to_clipboard">Text copied to clipboard</string>
     <string name="save_reading">Save Reading</string>
 
-    <!-- Texts -->
-    <string name="text_save">Save</string>
-    <string name="text_close">Close</string>
+    <!-- Home -->
+    <string name="home_empty_title">Whoops, nothing to see here</string>
+    <string name="home_empty_description">Scan and save QrCode readings to keep them nice and safe :)</string>
 
     <!-- Save BottomSheet -->
     <string name="save_scan_bottomsheet_title">Save new reading</string>
     <string name="save_scan_bottomsheet_textfield_label">Scan title</string>
+
+    <!-- Texts -->
+    <string name="text_save">Save</string>
+    <string name="text_close">Close</string>
 
 
 </resources>
