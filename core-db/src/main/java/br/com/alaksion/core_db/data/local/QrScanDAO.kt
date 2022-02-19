@@ -1,6 +1,7 @@
 package br.com.alaksion.core_db.data.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import br.com.alaksion.core_db.data.model.ScanData
@@ -16,5 +17,8 @@ interface QrScanDAO {
 
     @Query("select * from scans where id = :id")
     suspend fun getById(id: Long): ScanData
+
+    @Delete
+    suspend fun delete(scanData: ScanData)
 
 }

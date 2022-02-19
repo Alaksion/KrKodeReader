@@ -4,6 +4,7 @@
     <bytecodeTargetLevel target="1.7">
       <module name="QrCodeReader.app" target="11" />
       <module name="QrCodeReader.core-db" target="11" />
+      <module name="QrCodeReader.core-platform-utils" target="11" />
       <module name="QrCodeReader.core-ui" target="11" />
     </bytecodeTargetLevel>
   </component>

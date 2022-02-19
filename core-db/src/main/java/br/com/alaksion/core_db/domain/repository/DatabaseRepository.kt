@@ -10,4 +10,6 @@ interface DatabaseRepository {
 
     fun listScans(): Flow<List<Scan>>
 
+    fun deleteScan(scan: Scan)
+
 }

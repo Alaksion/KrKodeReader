@@ -6,6 +6,9 @@
     <string name="save_reading">Save Reading</string>
 
     <!-- Home -->
+    <!-- Ready -->
+    <string name="home_title">My Qr Readings</string>
+    <!-- Empty -->
     <string name="home_empty_title">Whoops, nothing to see here</string>
     <string name="home_empty_description">Scan and save QrCode readings to keep them nice and safe :)</string>
 

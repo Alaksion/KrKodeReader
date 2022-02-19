@@ -12,6 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -30,7 +31,7 @@ object DatabaseDI {
     @Provides
     @Singleton
     fun provideLocalDataSource(database: Database): DatabaseDataSource {
-        return DatabaseDataSourceImpl(database)
+        return DatabaseDataSourceImpl(database, Dispatchers.IO)
     }
 
     @Provides

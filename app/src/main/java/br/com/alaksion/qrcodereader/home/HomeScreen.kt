@@ -44,20 +44,23 @@ fun HomeScreen(
     val viewModel = hiltViewModel<HomeViewModel>(context)
 
     HomeScreenContent(
-        screenState = viewModel.scans.collectAsState().value,
-        onClickNewScan = { navigator.navigate(QrReaderDestination) }
+        screenState = viewModel.homeState.collectAsState().value,
+        onClickNewScan = { navigator.navigate(QrReaderDestination) },
+        onClickDelete = { viewModel.onDeleteScan(it) }
     )
 }
 
 @Composable
 internal fun HomeScreenContent(
     screenState: HomeScreenState,
-    onClickNewScan: () -> Unit
+    onClickNewScan: () -> Unit,
+    onClickDelete: (Scan) -> Unit
 ) {
     when (screenState) {
         is HomeScreenState.Ready -> HomeScreenReady(
             items = screenState.scans,
-            onClickNewScan = onClickNewScan
+            onClickNewScan = onClickNewScan,
+            onClickDelete = onClickDelete
         )
         is HomeScreenState.Loading -> HomeScreenLoading()
         is HomeScreenState.Empty -> HomeScreenEmpty(onClickNewScan)
@@ -67,7 +70,8 @@ internal fun HomeScreenContent(
 @Composable
 fun HomeScreenReady(
     items: List<Scan>,
-    onClickNewScan: () -> Unit
+    onClickNewScan: () -> Unit,
+    onClickDelete: (Scan) -> Unit
 ) {
     val dimesions = LocalDimesions.current
 
@@ -85,13 +89,23 @@ fun HomeScreenReady(
             state = listState,
             verticalArrangement = Arrangement.spacedBy(dimesions.Separators.medium)
         ) {
+            item {
+                Spacer(Modifier.height(dimesions.Separators.large))
+                Text(
+                    text = stringResource(id = R.string.home_title),
+                    style = MaterialTheme.typography.h5.copy(
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+                Spacer(Modifier.height(dimesions.Separators.medium))
+            }
             itemsIndexed(items) { index, item ->
                 val color = if (index.isEven()) Orange.copy(0.5f) else LightGrey.copy(0.5f)
                 ScanCard(
                     scan = item,
                     cardColor = color,
                     onCardClick = {},
-                    onDeleteClick = {}
+                    onDeleteClick = onClickDelete
                 )
             }
         }

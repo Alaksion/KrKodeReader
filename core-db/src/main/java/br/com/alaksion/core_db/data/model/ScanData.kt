@@ -28,3 +28,10 @@ fun ScanData.mapToScan() = Scan(
     title = this.title,
     id = this.id
 )
+
+fun Scan.mapToData() = ScanData(
+    code = this.code,
+    createdAt = this.createdAt,
+    title = this.title,
+    id = this.id
+)

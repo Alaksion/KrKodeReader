@@ -7,7 +7,6 @@ import br.com.alaksion.core_db.domain.model.Scan
 import br.com.alaksion.core_db.domain.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,7 +39,7 @@ class SuccessViewModel @Inject constructor(
                     code = code,
                     title = _scanTitle.value
                 )
-            ).collect {
+            ).collectLatest {
                 _events.emit(SuccessVmEvents.SaveScanSuccess(it))
             }
         }

@@ -31,7 +31,7 @@ fun ScanCard(
     scan: Scan,
     cardColor: Color = Orange.copy(alpha = 0f),
     onCardClick: (Int) -> Unit,
-    onDeleteClick: (Int) -> Unit
+    onDeleteClick: (Scan) -> Unit
 ) {
     val dimensions = LocalDimesions.current
     val clipManager = LocalClipboardManager.current
@@ -87,7 +87,7 @@ fun ScanCard(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { onDeleteClick(scan.id) }) {
+                IconButton(onClick = { onDeleteClick(scan) }) {
                     Icon(
                         imageVector = Icons.Outlined.Delete,
                         contentDescription = null,

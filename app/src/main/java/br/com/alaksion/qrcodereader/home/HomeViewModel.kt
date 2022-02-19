@@ -4,48 +4,58 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.alaksion.core_db.domain.model.Scan
 import br.com.alaksion.core_db.domain.repository.DatabaseRepository
+import br.com.alaksion.core_platform_utils.dispatchersmodule.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: DatabaseRepository
+    private val repository: DatabaseRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _scans = MutableStateFlow<HomeScreenState>(HomeScreenState.Loading)
-    val scans = _scans.asStateFlow()
+    private val _homeState = MutableStateFlow<HomeScreenState>(HomeScreenState.Loading)
+    val homeState = _homeState.asStateFlow()
+
+    private val scans = MutableStateFlow<MutableList<Scan>>(mutableListOf())
 
     init {
         getScans()
     }
 
     private fun getScans() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.listScans().collect { scansList ->
-                _scans.value =
+        viewModelScope.launch(ioDispatcher) {
+            repository.listScans().collectLatest { scansList ->
+                _homeState.value =
                     if (scansList.isEmpty()) HomeScreenState.Empty
-                    else HomeScreenState.Ready(scansList)
+                    else {
+                        scans.value.addAll(scansList)
+                        HomeScreenState.Ready(scans.value)
+                    }
             }
         }
     }
 
     fun notifyScanRegistered(scan: Scan) {
-        when (val currentState = _scans.value) {
-            is HomeScreenState.Ready -> {
-                val newList = mutableListOf<Scan>()
-                newList.addAll(currentState.scans)
-                newList.add(scan)
-                _scans.value = HomeScreenState.Ready(newList)
-            }
-            is HomeScreenState.Loading, is HomeScreenState.Empty -> {
-                _scans.value = HomeScreenState.Ready((listOf(scan)))
-            }
+        val newList = scans.value.apply {
+            add(scan)
         }
+        _homeState.value = HomeScreenState.Ready(newList)
+    }
+
+    fun onDeleteScan(scan: Scan) {
+        repository.deleteScan(scan)
+        val newList = scans.value.apply {
+            remove(scan)
+        }
+        _homeState.value =
+            if (newList.isEmpty()) HomeScreenState.Empty
+            else HomeScreenState.Ready(newList)
     }
 
 }

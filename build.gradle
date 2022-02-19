@@ -6,6 +6,7 @@ buildscript {
         hilt_version = "2.40.5"
         room_version = "2.4.1"
         accompanist_version = "0.24.2-alpha"
+        coroutines_version = "1.6.0"
     }
 
     dependencies {

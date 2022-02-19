@@ -24,4 +24,8 @@ class DatabaseRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun deleteScan(scan: Scan) {
+        localDataSource.deleteScan(scan.mapToData())
+    }
+
 }
