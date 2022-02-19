@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.collectLatest
     route = "/reader"
 )
 @Composable
-fun QrReader(
+internal fun QrReader(
     navigator: DestinationsNavigator
 ) {
     val context = LocalContext.current
@@ -47,7 +47,6 @@ fun QrReader(
             when (event) {
                 is QrReaderVmEvents.NavigateToSuccess -> navigator.navigate(
                     ReadSuccessDestination(
-                        id = 1,
                         code = event.scanResult.text,
                     ),
                     builder = {
@@ -80,7 +79,7 @@ fun QrReader(
 }
 
 @Composable
-fun QrReaderPermissionGranted(
+internal fun QrReaderPermissionGranted(
     onScanSuccess: (Result) -> Unit
 ) {
     val lifecycle = LocalLifecycleOwner.current
@@ -141,7 +140,7 @@ fun QrReaderPermissionGranted(
 }
 
 @Composable
-fun QrReaderRequestPermission(
+internal fun QrReaderRequestPermission(
     onUpdateCameraPermission: (Boolean) -> Unit
 ) {
     val cameraRequest =

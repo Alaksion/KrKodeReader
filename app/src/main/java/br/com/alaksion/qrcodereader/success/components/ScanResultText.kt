@@ -22,7 +22,7 @@ import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
 import br.com.alaksion.qrcodereader.R
 
 @Composable
-fun ScanResultText(
+internal fun ScanResultText(
     modifier: Modifier = Modifier,
     text: String,
     onCopyToClickBoard: (String) -> Unit,

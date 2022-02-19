@@ -17,7 +17,7 @@ sealed class SuccessVmEvents {
 }
 
 @HiltViewModel
-class SuccessViewModel @Inject constructor(
+internal class SuccessViewModel @Inject constructor(
     private val repository: DatabaseRepository
 ) : ViewModel() {
 

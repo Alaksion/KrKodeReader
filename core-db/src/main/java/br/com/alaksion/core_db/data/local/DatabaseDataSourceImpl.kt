@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DatabaseDataSourceImpl @Inject constructor(
+internal class DatabaseDataSourceImpl @Inject constructor(
     private val database: Database,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : DatabaseDataSource {

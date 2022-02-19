@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
-fun ScanSaveBottomSheet(
+internal fun ScanSaveBottomSheet(
     modifier: Modifier = Modifier,
     onChangeScanTitle: (String) -> Unit,
     onClickSave: () -> Unit,

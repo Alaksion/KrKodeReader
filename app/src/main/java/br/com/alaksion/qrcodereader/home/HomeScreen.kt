@@ -25,6 +25,7 @@ import br.com.alaksion.core_utils.extensions.isEven
 import br.com.alaksion.qrcodereader.MainActivity
 import br.com.alaksion.qrcodereader.R
 import br.com.alaksion.qrcodereader.destinations.QrReaderDestination
+import br.com.alaksion.qrcodereader.destinations.ReadingDetailScreenDestination
 import br.com.alaksion.qrcodereader.home.components.HomeFab
 import br.com.alaksion.qrcodereader.home.components.ScanCard
 import com.ramcosta.composedestinations.annotation.Destination
@@ -36,7 +37,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
     route = "/"
 )
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     navigator: DestinationsNavigator
 ) {
     val context = LocalContext.current as MainActivity
@@ -46,7 +47,8 @@ fun HomeScreen(
     HomeScreenContent(
         screenState = viewModel.homeState.collectAsState().value,
         onClickNewScan = { navigator.navigate(QrReaderDestination) },
-        onClickDelete = { viewModel.onDeleteScan(it) }
+        onClickDelete = { viewModel.onDeleteScan(it) },
+        onClickScanDetails = { navigator.navigate(ReadingDetailScreenDestination(it)) }
     )
 }
 
@@ -54,13 +56,15 @@ fun HomeScreen(
 internal fun HomeScreenContent(
     screenState: HomeScreenState,
     onClickNewScan: () -> Unit,
-    onClickDelete: (Scan) -> Unit
+    onClickDelete: (Scan) -> Unit,
+    onClickScanDetails: (Int) -> Unit
 ) {
     when (screenState) {
         is HomeScreenState.Ready -> HomeScreenReady(
             items = screenState.scans,
             onClickNewScan = onClickNewScan,
-            onClickDelete = onClickDelete
+            onClickDelete = onClickDelete,
+            onClickScanDetails = onClickScanDetails
         )
         is HomeScreenState.Loading -> HomeScreenLoading()
         is HomeScreenState.Empty -> HomeScreenEmpty(onClickNewScan)
@@ -68,10 +72,11 @@ internal fun HomeScreenContent(
 }
 
 @Composable
-fun HomeScreenReady(
+internal fun HomeScreenReady(
     items: List<Scan>,
     onClickNewScan: () -> Unit,
-    onClickDelete: (Scan) -> Unit
+    onClickDelete: (Scan) -> Unit,
+    onClickScanDetails: (Int) -> Unit
 ) {
     val dimesions = LocalDimesions.current
 
@@ -104,7 +109,7 @@ fun HomeScreenReady(
                 ScanCard(
                     scan = item,
                     cardColor = color,
-                    onCardClick = {},
+                    onCardClick = onClickScanDetails,
                     onDeleteClick = onClickDelete
                 )
             }
@@ -113,7 +118,7 @@ fun HomeScreenReady(
 }
 
 @Composable
-fun HomeScreenLoading() {
+internal fun HomeScreenLoading() {
     val dimesions = LocalDimesions.current
 
     Scaffold() {
@@ -127,7 +132,7 @@ fun HomeScreenLoading() {
 }
 
 @Composable
-fun HomeScreenEmpty(
+internal fun HomeScreenEmpty(
     onClickNewScan: () -> Unit
 ) {
     val dimensions = LocalDimesions.current

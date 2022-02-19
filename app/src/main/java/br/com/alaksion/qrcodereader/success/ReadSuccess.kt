@@ -38,8 +38,7 @@ import kotlinx.coroutines.launch
     route = "/success"
 )
 @Composable
-fun ReadSuccess(
-    id: Int,
+internal fun ReadSuccess(
     code: String,
     navigator: DestinationsNavigator
 ) {
@@ -89,7 +88,7 @@ fun ReadSuccess(
 
 @Composable
 @ExperimentalMaterialApi
-fun ReadSuccessContent(
+internal fun ReadSuccessContent(
     code: String,
     onClickSave: () -> Unit,
     onClickClose: () -> Unit,

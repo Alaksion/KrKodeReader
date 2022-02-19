@@ -11,7 +11,7 @@ sealed class QrReaderVmEvents {
     data class NavigateToSuccess(val scanResult: Result) : QrReaderVmEvents()
 }
 
-class QrReaderViewModel : ViewModel() {
+internal class QrReaderViewModel : ViewModel() {
 
     private val _events = MutableSharedFlow<QrReaderVmEvents>()
     val events = _events.asSharedFlow()

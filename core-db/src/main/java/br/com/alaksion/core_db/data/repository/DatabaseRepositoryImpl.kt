@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class DatabaseRepositoryImpl @Inject constructor(
+internal class DatabaseRepositoryImpl @Inject constructor(
     private val localDataSource: DatabaseDataSource
 ) : DatabaseRepository {
 
