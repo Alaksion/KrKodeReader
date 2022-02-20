@@ -8,13 +8,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
+import androidx.camera.core.impl.ImageAnalysisConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
+import br.com.alaksion.core_ui.theme.AppWhite
 import br.com.alaksion.qrcodereader.destinations.ReadSuccessDestination
 import br.com.alaksion.qrcodereader.utils.QrAnalyzer
 import com.google.zxing.Result
@@ -59,10 +61,6 @@ internal fun QrReader(
         }
     }
 
-    SideEffect {
-
-    }
-
     var hasCameraPermission by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
@@ -72,19 +70,49 @@ internal fun QrReader(
         )
     }
 
+    if (hasCameraPermission) QrReaderReady(
+        onScanSuccess = { viewModel.onScanSuccess(it) },
+        onClickClose = { navigator.popBackStack() }
+    )
+    else QrReaderRequestPermission(onUpdateCameraPermission = { hasCameraPermission = it })
+}
+
+@Composable
+internal fun QrReaderReady(
+    onClickClose: () -> Unit,
+    onScanSuccess: (Result) -> Unit
+) {
     Scaffold {
-        if (hasCameraPermission) QrReaderPermissionGranted { viewModel.onScanSuccess(it) }
-        else QrReaderRequestPermission(onUpdateCameraPermission = { hasCameraPermission = it })
+        val dimension = LocalDimesions.current
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            CameraView(
+                modifier = Modifier
+                    .fillMaxSize(),
+                onScanSuccess = onScanSuccess
+            )
+            IconButton(onClick = onClickClose) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                    tint = AppWhite,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(horizontal = dimension.Padding.medium)
+                )
+            }
+        }
     }
 }
 
 @Composable
-internal fun QrReaderPermissionGranted(
+internal fun CameraView(
+    modifier: Modifier = Modifier,
     onScanSuccess: (Result) -> Unit
 ) {
-    val lifecycle = LocalLifecycleOwner.current
     val context = LocalContext.current
     val cameraProvider = remember { ProcessCameraProvider.getInstance(context) }
+    val lifecycle = LocalLifecycleOwner.current
 
     DisposableEffect(key1 = cameraProvider) {
         onDispose {
@@ -92,51 +120,42 @@ internal fun QrReaderPermissionGranted(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 20.dp),
-        verticalArrangement = Arrangement.Center,
-    ) {
-        AndroidView(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp),
-            factory = { context ->
-                val previewView = PreviewView(context)
-                val preview = Preview.Builder().build()
-                val cameraSelector =
-                    CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build()
-                preview.setSurfaceProvider(previewView.surfaceProvider)
+    AndroidView(
+        modifier = modifier,
+        factory = { factoryContext ->
+            val previewView = PreviewView(factoryContext)
+            val preview = Preview.Builder().build()
+            val cameraSelector =
+                CameraSelector.Builder()
+                    .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                    .build()
+            preview.setSurfaceProvider(previewView.surfaceProvider)
 
-                val analyzer = ImageAnalysis.Builder()
-                    .setTargetResolution(
-                        Size(
-                            previewView.height,
-                            previewView.width
-                        )
-                    ).build()
-
-                analyzer.setAnalyzer(
-                    ContextCompat.getMainExecutor(context),
-                    QrAnalyzer(
-                        onCodeAnalyzed = { onScanSuccess(it) },
-                        onInvalidFormat = {}
+            val analyzer = ImageAnalysis.Builder()
+                .setTargetResolution(
+                    Size(
+                        previewView.height,
+                        previewView.width
                     )
-                )
+                ).build()
 
-                cameraProvider.get().bindToLifecycle(
-                    lifecycle,
-                    cameraSelector,
-                    preview,
-                    analyzer
+            analyzer.setAnalyzer(
+                ContextCompat.getMainExecutor(factoryContext),
+                QrAnalyzer(
+                    onCodeAnalyzed = { onScanSuccess(it) },
+                    onInvalidFormat = {}
                 )
-                previewView
-            }
-        )
-    }
+            )
+
+            cameraProvider.get().bindToLifecycle(
+                lifecycle,
+                cameraSelector,
+                preview,
+                analyzer
+            )
+            previewView
+        }
+    )
 }
 
 @Composable
@@ -150,22 +169,24 @@ internal fun QrReaderRequestPermission(
             onUpdateCameraPermission(isAllowed)
         }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Camera permission not available")
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(
-            onClick = { cameraRequest.launch(Manifest.permission.CAMERA) },
+    Scaffold {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text("Request Permission")
+            Text("Camera permission not available")
+            Spacer(modifier = Modifier.height(10.dp))
+            Button(
+                onClick = { cameraRequest.launch(Manifest.permission.CAMERA) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+            ) {
+                Text("Request Permission")
+            }
         }
     }
 }

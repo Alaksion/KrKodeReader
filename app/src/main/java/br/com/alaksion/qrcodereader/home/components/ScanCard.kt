@@ -71,7 +71,8 @@ fun ScanCard(
                         color = DarkGrey
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                 )
                 Spacer(Modifier.height(dimensions.Separators.small))
                 Text(
