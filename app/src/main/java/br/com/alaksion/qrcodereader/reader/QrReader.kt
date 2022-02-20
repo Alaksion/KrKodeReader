@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.core_ui.theme.AppWhite
@@ -42,7 +43,7 @@ internal fun QrReader(
     navigator: DestinationsNavigator
 ) {
     val context = LocalContext.current
-    val viewModel: QrReaderViewModel = viewModel()
+    val viewModel: QrReaderViewModel = hiltViewModel()
 
     LaunchedEffect(key1 = navigator, key2 = viewModel) {
         viewModel.events.collectLatest { event ->

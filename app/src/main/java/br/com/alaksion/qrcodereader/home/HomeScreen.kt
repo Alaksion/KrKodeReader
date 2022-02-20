@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -17,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.alaksion.core_db.domain.model.Scan
+import br.com.alaksion.core_ui.components.LoadingScreen
 import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.core_ui.theme.DarkGrey
 import br.com.alaksion.core_ui.theme.LightGrey
@@ -57,7 +60,7 @@ internal fun HomeScreenContent(
     screenState: HomeScreenState,
     onClickNewScan: () -> Unit,
     onClickDelete: (Scan) -> Unit,
-    onClickScanDetails: (Int) -> Unit
+    onClickScanDetails: (Long) -> Unit
 ) {
     when (screenState) {
         is HomeScreenState.Ready -> HomeScreenReady(
@@ -66,7 +69,7 @@ internal fun HomeScreenContent(
             onClickDelete = onClickDelete,
             onClickScanDetails = onClickScanDetails
         )
-        is HomeScreenState.Loading -> HomeScreenLoading()
+        is HomeScreenState.Loading -> Scaffold { LoadingScreen() }
         is HomeScreenState.Empty -> HomeScreenEmpty(onClickNewScan)
     }
 }
@@ -76,7 +79,7 @@ internal fun HomeScreenReady(
     items: List<Scan>,
     onClickNewScan: () -> Unit,
     onClickDelete: (Scan) -> Unit,
-    onClickScanDetails: (Int) -> Unit
+    onClickScanDetails: (Long) -> Unit
 ) {
     val dimesions = LocalDimesions.current
 
@@ -113,20 +116,6 @@ internal fun HomeScreenReady(
                     onDeleteClick = onClickDelete
                 )
             }
-        }
-    }
-}
-
-@Composable
-internal fun HomeScreenLoading() {
-    val dimesions = LocalDimesions.current
-
-    Scaffold() {
-        Box(
-            modifier = Modifier.padding(horizontal = dimesions.Padding.medium),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
         }
     }
 }

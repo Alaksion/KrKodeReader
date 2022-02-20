@@ -32,4 +32,8 @@ internal class DatabaseDataSourceImpl @Inject constructor(
             database.qrScanDao().delete(scan)
         }
     }
+
+    override fun getScan(scanId: Long): Flow<ScanData> {
+        return flow { emit(database.qrScanDao().getById(scanId)) }
+    }
 }

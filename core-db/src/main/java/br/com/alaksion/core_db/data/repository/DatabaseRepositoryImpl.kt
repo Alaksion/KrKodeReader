@@ -28,4 +28,8 @@ internal class DatabaseRepositoryImpl @Inject constructor(
         localDataSource.deleteScan(scan.mapToData())
     }
 
+    override fun getScan(scandId: Long): Flow<Scan> {
+        return localDataSource.getScan(scandId).map { it.mapToScan() }
+    }
+
 }

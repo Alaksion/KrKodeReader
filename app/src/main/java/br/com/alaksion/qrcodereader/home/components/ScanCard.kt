@@ -30,7 +30,7 @@ fun ScanCard(
     modifier: Modifier = Modifier,
     scan: Scan,
     cardColor: Color = Orange.copy(alpha = 0f),
-    onCardClick: (Int) -> Unit,
+    onCardClick: (Long) -> Unit,
     onDeleteClick: (Scan) -> Unit
 ) {
     val dimensions = LocalDimesions.current

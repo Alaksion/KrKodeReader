@@ -12,4 +12,6 @@ interface DatabaseRepository {
 
     fun deleteScan(scan: Scan)
 
+    fun getScan(scandId: Long): Flow<Scan>
+
 }

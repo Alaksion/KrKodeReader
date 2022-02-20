@@ -10,7 +10,7 @@ import java.util.*
 
 @Entity(tableName = "scans")
 data class ScanData(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "code") val code: String,
     @ColumnInfo(name = "created_at") val createdAt: String,
     @ColumnInfo(name = "title") val title: String

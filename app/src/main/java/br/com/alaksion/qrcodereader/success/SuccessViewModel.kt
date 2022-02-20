@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import br.com.alaksion.core_db.domain.model.CreateScanRequest
 import br.com.alaksion.core_db.domain.model.Scan
 import br.com.alaksion.core_db.domain.repository.DatabaseRepository
+import br.com.alaksion.core_platform_utils.dispatchersmodule.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +19,8 @@ sealed class SuccessVmEvents {
 
 @HiltViewModel
 internal class SuccessViewModel @Inject constructor(
-    private val repository: DatabaseRepository
+    private val repository: DatabaseRepository,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _events = MutableSharedFlow<SuccessVmEvents>()
@@ -33,7 +35,7 @@ internal class SuccessViewModel @Inject constructor(
     fun saveScan(
         code: String,
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             repository.storeScan(
                 CreateScanRequest(
                     code = code,
@@ -46,7 +48,7 @@ internal class SuccessViewModel @Inject constructor(
     }
 
     fun closeScan() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             _events.emit(SuccessVmEvents.CloseScan)
         }
     }

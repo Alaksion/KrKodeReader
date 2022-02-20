@@ -11,4 +11,6 @@ interface DatabaseDataSource {
 
     fun deleteScan(scan: ScanData)
 
+    fun getScan(scanId: Long): Flow<ScanData>
+
 }
