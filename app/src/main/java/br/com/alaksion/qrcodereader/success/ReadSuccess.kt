@@ -32,6 +32,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import br.com.alaksion.core_ui.R as coreR
 
 @ExperimentalMaterialApi
 @Destination(
@@ -135,7 +136,7 @@ internal fun ReadSuccessContent(
                 ConstraintLayout(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = dimesions.Padding.medium)
+                        .padding(horizontal = dimesions.Padding.small)
                 ) {
                     val (content, buttons) = createRefs()
 
@@ -152,7 +153,7 @@ internal fun ReadSuccessContent(
                     ) {
                         Spacer(modifier = Modifier.height(50.dp))
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_check_outline),
+                            painter = painterResource(id = coreR.drawable.ic_check_outline),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(200.dp),

@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +22,7 @@ import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.core_ui.theme.Orange
 import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
 import br.com.alaksion.qrcodereader.R
+import br.com.alaksion.core_ui.R as coreR
 
 @Composable
 fun ScanCard(
@@ -51,7 +51,7 @@ fun ScanCard(
         horizontalArrangement = Arrangement.spacedBy(dimensions.Separators.medium)
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_qrcode),
+            painter = painterResource(id = coreR.drawable.ic_qrcode),
             contentDescription = null,
             modifier = Modifier
                 .clip(MaterialTheme.shapes.medium)

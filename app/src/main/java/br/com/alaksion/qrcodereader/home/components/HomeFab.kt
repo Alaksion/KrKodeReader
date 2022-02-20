@@ -5,8 +5,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import br.com.alaksion.qrcodereader.R
-
+import br.com.alaksion.core_ui.R as coreR
 
 @Composable
 fun HomeFab(
@@ -17,7 +16,10 @@ fun HomeFab(
         modifier = modifier,
         onClick = onClick
     ) {
-        Icon(painter = painterResource(id = R.drawable.ic_qr_scanner), contentDescription = null)
+        Icon(
+            painter = painterResource(id = coreR.drawable.ic_qr_scanner),
+            contentDescription = null
+        )
     }
 
 }

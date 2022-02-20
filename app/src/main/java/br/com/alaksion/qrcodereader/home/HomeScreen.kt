@@ -131,7 +131,7 @@ internal fun HomeScreenEmpty(
     ) {
         Column(
             modifier = Modifier
-                .padding(dimensions.Padding.medium)
+                .padding(dimensions.Padding.small)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Center
         ) {

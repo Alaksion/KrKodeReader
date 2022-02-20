@@ -19,6 +19,7 @@
     <!-- Texts -->
     <string name="text_save">Save</string>
     <string name="text_close">Close</string>
+    <string name="go_back">Go back</string>
 
 
 </resources>
