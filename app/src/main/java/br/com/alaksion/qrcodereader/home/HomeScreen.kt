@@ -22,8 +22,6 @@ import br.com.alaksion.core_db.domain.model.Scan
 import br.com.alaksion.core_ui.components.LoadingScreen
 import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.core_ui.theme.DarkGrey
-import br.com.alaksion.core_ui.theme.LightGrey
-import br.com.alaksion.core_ui.theme.Orange
 import br.com.alaksion.core_utils.extensions.isEven
 import br.com.alaksion.qrcodereader.MainActivity
 import br.com.alaksion.qrcodereader.R
@@ -93,7 +91,7 @@ internal fun HomeScreenReady(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .padding(horizontal = dimesions.Padding.medium),
+                .padding(horizontal = dimesions.Padding.small),
             state = listState,
             verticalArrangement = Arrangement.spacedBy(dimesions.Separators.medium)
         ) {
@@ -108,7 +106,9 @@ internal fun HomeScreenReady(
                 Spacer(Modifier.height(dimesions.Separators.medium))
             }
             itemsIndexed(items) { index, item ->
-                val color = if (index.isEven()) Orange.copy(0.5f) else LightGrey.copy(0.5f)
+                val color =
+                    if (index.isEven()) MaterialTheme.colors.primaryVariant
+                    else MaterialTheme.colors.secondaryVariant
                 ScanCard(
                     scan = item,
                     cardColor = color,

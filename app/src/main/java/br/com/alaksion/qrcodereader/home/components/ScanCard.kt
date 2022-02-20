@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,10 +18,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import br.com.alaksion.core_db.domain.model.Scan
 import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
-import br.com.alaksion.core_ui.theme.DarkGrey
 import br.com.alaksion.core_ui.theme.Orange
 import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
 import br.com.alaksion.qrcodereader.R
@@ -40,71 +39,54 @@ fun ScanCard(
         clipManager.setText(AnnotatedString(value))
     }
 
-    Box(
+    Row(
         modifier = modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.small)
+            .clip(MaterialTheme.shapes.medium)
             .background(cardColor)
             .clickable {
                 onCardClick(scan.id)
             }
-            .padding(all = dimensions.Padding.small),
+            .padding(dimensions.Padding.small),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(dimensions.Separators.medium)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+        Icon(
+            painter = painterResource(id = R.drawable.ic_qrcode),
+            contentDescription = null,
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.medium)
+                .background(Color.White)
+                .padding(dimensions.Padding.small)
+        )
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = scan.title,
-                    style = MaterialTheme.typography.body1.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(Modifier.height(dimensions.Separators.small))
-                Text(
-                    text = scan.code,
-                    style = MaterialTheme.typography.body2.copy(
-                        color = DarkGrey
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                )
-                Spacer(Modifier.height(dimensions.Separators.small))
-                Text(
-                    text = scan.createdAt,
-                    style = MaterialTheme.typography.caption.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = DarkGrey
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = { onDeleteClick(scan) }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Delete,
-                        contentDescription = null,
-                        tint = DarkGrey
-                    )
-                }
-                IconButton(onClick = { copyToClipboard(scan.code) }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_copy),
-                        contentDescription = null,
-                        tint = DarkGrey,
-                    )
-                }
-            }
+            Text(
+                text = scan.title,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = scan.code,
+                style = MaterialTheme.typography.body2,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        IconButton(onClick = { copyToClipboard(scan.code) }) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_copy),
+                contentDescription = null
+            )
+        }
+        IconButton(onClick = { onDeleteClick(scan) }) {
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = null
+            )
         }
     }
+
 }
 
 @Composable
