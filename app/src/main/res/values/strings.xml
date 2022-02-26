@@ -15,6 +15,10 @@
     <!-- Details -->
     <string name="your_code_stands_for">Your code stands for</string>
     <string name="scan_details">Scan Details</string>
+    <!-- Delete bottomsheet -->
+    <string name="bottom_sheet_title">Delete a Scan</string>
+    <string name="bottom_sheet_description">This reading will be permanently deleted and cannot be recovered</string>
+    <string name="bottom_sheet_delete">Delete reading</string>
 
     <!-- Save BottomSheet -->
     <string name="save_scan_bottomsheet_title">Save new reading</string>
