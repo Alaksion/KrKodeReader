@@ -30,7 +30,6 @@ fun ScanCard(
     scan: Scan,
     cardColor: Color = Orange.copy(alpha = 0f),
     onCardClick: (Long) -> Unit,
-    onDeleteClick: (Scan) -> Unit
 ) {
     val dimensions = LocalDimesions.current
     val clipManager = LocalClipboardManager.current
@@ -79,12 +78,6 @@ fun ScanCard(
                 contentDescription = null
             )
         }
-        IconButton(onClick = { onDeleteClick(scan) }) {
-            Icon(
-                imageVector = Icons.Outlined.Delete,
-                contentDescription = null
-            )
-        }
     }
 
 }
@@ -99,7 +92,6 @@ private fun ScanCardPreview() {
                     scan = Scan(1, "01/01/2000", "Title", "CODECODECODECODE"),
                     cardColor = Color.Cyan,
                     onCardClick = {},
-                    onDeleteClick = {}
                 )
             }
         }

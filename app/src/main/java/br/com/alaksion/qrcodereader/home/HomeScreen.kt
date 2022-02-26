@@ -48,7 +48,6 @@ internal fun HomeScreen(
     HomeScreenContent(
         screenState = viewModel.homeState.collectAsState().value,
         onClickNewScan = { navigator.navigate(QrReaderDestination) },
-        onClickDelete = { viewModel.onDeleteScan(it) },
         onClickScanDetails = { navigator.navigate(ReadingDetailScreenDestination(it)) }
     )
 }
@@ -57,14 +56,12 @@ internal fun HomeScreen(
 internal fun HomeScreenContent(
     screenState: HomeScreenState,
     onClickNewScan: () -> Unit,
-    onClickDelete: (Scan) -> Unit,
     onClickScanDetails: (Long) -> Unit
 ) {
     when (screenState) {
         is HomeScreenState.Ready -> HomeScreenReady(
             items = screenState.scans,
             onClickNewScan = onClickNewScan,
-            onClickDelete = onClickDelete,
             onClickScanDetails = onClickScanDetails
         )
         is HomeScreenState.Loading -> Scaffold { LoadingScreen() }
@@ -76,7 +73,6 @@ internal fun HomeScreenContent(
 internal fun HomeScreenReady(
     items: List<Scan>,
     onClickNewScan: () -> Unit,
-    onClickDelete: (Scan) -> Unit,
     onClickScanDetails: (Long) -> Unit
 ) {
     val dimesions = LocalDimesions.current
@@ -113,7 +109,6 @@ internal fun HomeScreenReady(
                     scan = item,
                     cardColor = color,
                     onCardClick = onClickScanDetails,
-                    onDeleteClick = onClickDelete
                 )
             }
         }

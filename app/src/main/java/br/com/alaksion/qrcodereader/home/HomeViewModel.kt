@@ -55,14 +55,4 @@ internal class HomeViewModel @Inject constructor(
             else HomeScreenState.Ready(newList)
     }
 
-    fun onDeleteScan(scan: Scan) {
-        repository.deleteScan(scan)
-        val newList = scans.value.apply {
-            remove(scan)
-        }
-        _homeState.value =
-            if (newList.isEmpty()) HomeScreenState.Empty
-            else HomeScreenState.Ready(newList)
-    }
-
 }

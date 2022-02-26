@@ -44,7 +44,7 @@ internal fun DeleteReadingBottomSheet(
                 .fillMaxWidth()
                 .padding(horizontal = dimensions.Padding.small)
         )
-        Spacer(modifier = Modifier.height(dimensions.Separators.medium))
+        Spacer(modifier = Modifier.height(dimensions.Separators.large))
         Button(
             onClick = onConfirmDeleteClick,
             modifier = Modifier
