@@ -84,7 +84,7 @@ internal fun HomeScreenReady(
     Scaffold(
         floatingActionButton = {
             HomeFab(onClick = { onClickNewScan() })
-        }
+        },
     ) {
         val listState = rememberLazyListState()
         LazyColumn(
