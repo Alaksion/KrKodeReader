@@ -15,8 +15,10 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "QrCodeReader"
-include ':app'
-include ':core-db'
-include ':core-utils'
-include ':core-ui'
-include ':core-platform-utils'
+include(":app")
+include(":core-db")
+include(":core-utils")
+include(":core-ui")
+include(":core-platform-utils")
+
+enableFeaturePreview("VERSION_CATALOGS")

@@ -1,0 +1,66 @@
+[versions]
+androidXCore = "1.7.0"
+compose = "1.2.0-alpha06"
+composeActivity = "1.4.0"
+constraintLayout = "1.0.0"
+camerax = "1.1.0-beta02"
+hilt = "2.41"
+room = "2.4.1"
+accompanist = "0.24.2-alpha"
+coroutines = "1.6.0"
+junit = "4.13.2"
+material = "1.5.0"
+appcompat = "1.4.1"
+zxing = "3.4.0"
+lifecycle = "2.4.1"
+splashscreen = "1.0.0-beta02"
+hiltNavigation = "1.0.0"
+kotlin = "1.6.10"
+agp = "7.1.2"
+
+[libraries]
+androidX-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidXCore" }
+androidX-lifecycle-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidX-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
+androidX-hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
+
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintLayout" }
+compose-activty = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
+compose-debug-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-debug-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+compose-androidtest-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+
+junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
+
+material = { module = "com.google.android.material:material", version.ref = "material" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+hilt-core = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+camerax-core = { module = "androidx.camera:camera-core", version.ref = "camerax" }
+camerax-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" }
+camerax-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" }
+camerax-video = { module = "androidx.camera:camera-video", version.ref = "camerax" }
+camerax-view = { module = "androidx.camera:camera-view", version.ref = "camerax" }
+camerax-extension = { module = "androidx.camera:camera-extensions", version.ref = "camerax" }
+
+accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
+
+zxing = { module = "com.google.zxing:core", version.ref = "zxing" }
+
+[bundles]
+compose = ["compose-ui", "compose-material", "compose-preview"]
+commom-ui = ["material", "appcompat"]
+compose-debug = ["compose-debug-tooling", "compose-debug-manifest"]
+room = ["room-ktx", "room-runtime"]
+cameraX = ["camerax.core", "camerax.camera2", "camerax.lifecycle", "camerax.video", "camerax.view", "camerax.extension"]
