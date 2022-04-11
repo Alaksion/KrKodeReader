@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class QrReaderVmEvents {
+internal sealed class QrReaderVmEvents {
     data class NavigateToSuccess(val scanResult: Result) : QrReaderVmEvents()
 }
 
