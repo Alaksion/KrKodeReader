@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
 
     @EntryPoint
     @InstallIn(ActivityComponent::class)
-    interface AssistedFactoryProvider {
+    internal interface AssistedFactoryProvider {
         fun readingDetailsViewModel(): ReadingDetailsVmFactory
     }
 
