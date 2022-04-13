@@ -2,6 +2,7 @@ package br.com.alaksion.qrcodereader.home.components
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -14,7 +15,8 @@ fun HomeFab(
 ) {
     FloatingActionButton(
         modifier = modifier,
-        onClick = onClick
+        onClick = onClick,
+        backgroundColor = MaterialTheme.colors.primaryVariant
     ) {
         Icon(
             painter = painterResource(id = coreR.drawable.ic_qr_scanner),

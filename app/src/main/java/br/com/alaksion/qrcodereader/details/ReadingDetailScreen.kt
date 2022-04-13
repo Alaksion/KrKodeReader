@@ -1,9 +1,7 @@
 package br.com.alaksion.qrcodereader.details
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,6 +13,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.alaksion.core_db.domain.model.Scan
@@ -49,8 +48,6 @@ internal fun ReadingDetailScreen(
         onBackClick = { navigator.popBackStack() },
         onDeleteClick = { viewModel.deleteScan(it) },
         onCopyClick = { clipBoard.setText(AnnotatedString(it)) },
-        onSaveClick = {},
-        onShareClick = { }
     )
 
     LaunchedEffect(key1 = viewModel) {
@@ -72,9 +69,7 @@ internal fun ReadingDetailsContent(
     screenState: ReadingDetailState,
     onBackClick: () -> Unit,
     onDeleteClick: (Scan) -> Unit,
-    onCopyClick: (String) -> Unit,
-    onShareClick: () -> Unit,
-    onSaveClick: () -> Unit
+    onCopyClick: (String) -> Unit
 ) {
     when (screenState) {
         is ReadingDetailState.Loading ->
@@ -89,8 +84,6 @@ internal fun ReadingDetailsContent(
                 onBackClick,
                 onDeleteClick,
                 onCopyClick,
-                onShareClick,
-                onSaveClick
             )
     }
 }
@@ -102,12 +95,8 @@ internal fun ReadingDetailsReady(
     onBackClick: () -> Unit,
     onDeleteClick: (Scan) -> Unit,
     onCopyClick: (String) -> Unit,
-    onShareClick: () -> Unit,
-    onSaveClick: () -> Unit
 ) {
     val dimensions = LocalDimesions.current
-    val codeValueScrollState = rememberScrollState()
-    val screenScrollState = rememberScrollState()
     val sheetState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
 
@@ -133,8 +122,7 @@ internal fun ReadingDetailsReady(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensions.Padding.small)
-                .verticalScroll(screenScrollState),
+                .padding(dimensions.Padding.small),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Separator(height = dimensions.Separators.medium)
@@ -152,26 +140,22 @@ internal fun ReadingDetailsReady(
             ReadingDetailsActions(
                 modifier = Modifier
                     .fillMaxWidth(),
-                onClickSave = onSaveClick,
                 onClickCopy = { onCopyClick(scan.code) },
                 onCLickDelete = { scope.launch { sheetState.bottomSheetState.expand() } },
-                onClickShare = onShareClick
             )
             Spacer(Modifier.height(dimensions.Separators.medium))
             Text(
                 text = stringResource(id = R.string.your_code_stands_for),
                 style = MaterialTheme.typography.h6.copy(
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 ),
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(dimensions.Separators.small))
             ReadingDetailsCodeValue(
                 code = scan.code,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                textScrollState = codeValueScrollState
+                modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(dimensions.Padding.small))
         }

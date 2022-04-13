@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +17,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.alaksion.core_db.domain.model.Scan
 import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
-import br.com.alaksion.core_ui.theme.Orange
 import br.com.alaksion.core_ui.theme.QrCodeReaderTheme
 import br.com.alaksion.qrcodereader.R
 import br.com.alaksion.core_ui.R as coreR
@@ -28,7 +25,7 @@ import br.com.alaksion.core_ui.R as coreR
 fun ScanCard(
     modifier: Modifier = Modifier,
     scan: Scan,
-    cardColor: Color = Orange.copy(alpha = 0f),
+    cardColor: Color,
     onCardClick: (Long) -> Unit,
 ) {
     val dimensions = LocalDimesions.current

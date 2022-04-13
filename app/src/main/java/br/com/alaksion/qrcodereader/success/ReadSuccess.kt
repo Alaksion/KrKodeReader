@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -97,6 +98,7 @@ internal fun ReadSuccessContent(
     scanTitle: String,
     isButtonEnabled: Boolean,
 ) {
+    val focus = LocalFocusManager.current
     val scope = rememberCoroutineScope()
     val dimesions = LocalDimesions.current
     val scrollState = rememberScrollState()
@@ -123,7 +125,10 @@ internal fun ReadSuccessContent(
         sheetContent = {
             ScanSaveBottomSheet(
                 onChangeScanTitle = onChangeScanTitle,
-                onClickSave = onClickSave,
+                onClickSave = {
+                    focus.clearFocus()
+                    onClickSave()
+                },
                 scanTitle = scanTitle,
                 isSaveButtonEnabled = isButtonEnabled,
                 sheetState = bottomsheetState,

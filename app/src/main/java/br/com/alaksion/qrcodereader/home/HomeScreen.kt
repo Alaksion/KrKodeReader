@@ -103,8 +103,8 @@ internal fun HomeScreenReady(
             }
             itemsIndexed(items) { index, item ->
                 val color =
-                    if (index.isEven()) MaterialTheme.colors.primaryVariant
-                    else MaterialTheme.colors.secondaryVariant
+                    if (index.isEven()) MaterialTheme.colors.primary
+                    else MaterialTheme.colors.primaryVariant
                 ScanCard(
                     scan = item,
                     cardColor = color,

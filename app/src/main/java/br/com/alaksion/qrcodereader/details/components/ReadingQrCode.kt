@@ -33,12 +33,12 @@ fun ReadingQrCode(
                     border = BorderStroke(
                         width = 20.dp, brush = Brush.linearGradient(
                             colors = listOf(
-                                MaterialTheme.colors.secondaryVariant,
-                                MaterialTheme.colors.secondary,
+                                MaterialTheme.colors.primaryVariant,
+                                MaterialTheme.colors.primary,
                             )
                         )
                     ),
-                    shape = MaterialTheme.shapes.medium
+                    shape = MaterialTheme.shapes.large
                 )
         ) {
             Image(

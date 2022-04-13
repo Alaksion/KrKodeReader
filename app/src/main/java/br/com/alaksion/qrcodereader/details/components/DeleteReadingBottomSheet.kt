@@ -54,6 +54,7 @@ internal fun DeleteReadingBottomSheet(
         ) {
             Text(text = stringResource(R.string.bottom_sheet_delete))
         }
+        Spacer(modifier = Modifier.height(dimensions.Separators.small))
         TextButton(
             onClick = dissmissClick,
             modifier = Modifier
