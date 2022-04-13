@@ -35,6 +35,9 @@ dependencies {
     implementation(project(":core-utils"))
     implementation(project(":core-platform-utils"))
 
+    testImplementation(libs.bundles.testing.unit)
+    testImplementation(libs.coroutines.test)
+
     implementation(libs.androidX.core.ktx)
 
     api(libs.bundles.room)

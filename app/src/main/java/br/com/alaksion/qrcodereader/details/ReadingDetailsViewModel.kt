@@ -23,11 +23,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-sealed class ReadingDetailsEvents {
+internal sealed class ReadingDetailsEvents {
     data class ScanDeleted(val item: Scan) : ReadingDetailsEvents()
 }
 
-class ReadingDetailsViewModel @AssistedInject constructor(
+internal class ReadingDetailsViewModel @AssistedInject constructor(
     private val repository: DatabaseRepository,
     @Assisted private val scanId: Long,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
@@ -69,13 +69,13 @@ class ReadingDetailsViewModel @AssistedInject constructor(
 }
 
 @AssistedFactory
-interface ReadingDetailsVmFactory {
+internal interface ReadingDetailsVmFactory {
     fun create(scanId: Long): ReadingDetailsViewModel
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun readingDetailsViewModel(scanId: Long): ReadingDetailsViewModel {
+internal fun readingDetailsViewModel(scanId: Long): ReadingDetailsViewModel {
     val factory = EntryPointAccessors.fromActivity(
         GetActivity<MainActivity>(),
         MainActivity.AssistedFactoryProvider::class.java

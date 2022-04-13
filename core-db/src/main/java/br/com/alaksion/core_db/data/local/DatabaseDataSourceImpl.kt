@@ -12,28 +12,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class DatabaseDataSourceImpl @Inject constructor(
-    private val database: Database,
+    private val qrDatabase: QrDatabase,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : DatabaseDataSource {
 
     override fun storeScan(scan: ScanData): Flow<ScanData> {
         return flow {
-            val insertedItemId = database.qrScanDao().create(scan)
-            emit(database.qrScanDao().getById(insertedItemId))
+            val insertedItemId = qrDatabase.qrScanDao().create(scan)
+            emit(qrDatabase.qrScanDao().getById(insertedItemId))
         }.flowOn(dispatcher)
     }
 
     override fun getScans(): Flow<List<ScanData>> {
-        return flow { emit(database.qrScanDao().index()) }.flowOn(dispatcher)
+        return flow { emit(qrDatabase.qrScanDao().index()) }.flowOn(dispatcher)
     }
 
     override fun deleteScan(scan: ScanData) {
         CoroutineScope(dispatcher).launch {
-            database.qrScanDao().delete(scan)
+            qrDatabase.qrScanDao().delete(scan)
         }
     }
 
     override fun getScan(scanId: Long): Flow<ScanData> {
-        return flow { emit(database.qrScanDao().getById(scanId)) }
+        return flow { emit(qrDatabase.qrScanDao().getById(scanId)) }
     }
 }

@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import br.com.alaksion.core_db.data.model.ScanData
 
 @Database(entities = [ScanData::class], version = 1)
-abstract class Database : RoomDatabase() {
+abstract class QrDatabase : RoomDatabase() {
 
     abstract fun qrScanDao(): QrScanDAO
 

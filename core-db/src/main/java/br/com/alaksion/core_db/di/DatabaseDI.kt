@@ -3,8 +3,8 @@ package br.com.alaksion.core_db.di
 import android.content.Context
 import androidx.room.Room
 import br.com.alaksion.core_db.data.datasource.DatabaseDataSource
-import br.com.alaksion.core_db.data.local.Database
 import br.com.alaksion.core_db.data.local.DatabaseDataSourceImpl
+import br.com.alaksion.core_db.data.local.QrDatabase
 import br.com.alaksion.core_db.data.repository.DatabaseRepositoryImpl
 import br.com.alaksion.core_db.domain.repository.DatabaseRepository
 import dagger.Module
@@ -21,23 +21,23 @@ object DatabaseDI {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): Database {
+    fun provideDatabase(@ApplicationContext context: Context): QrDatabase {
         return Room.databaseBuilder(
             context,
-            Database::class.java, "qr-database"
+            QrDatabase::class.java, "qr-database"
         ).build()
     }
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(database: Database): DatabaseDataSource {
-        return DatabaseDataSourceImpl(database, Dispatchers.IO)
+    fun provideLocalDataSource(qrDatabase: QrDatabase): DatabaseDataSource {
+        return DatabaseDataSourceImpl(qrDatabase, Dispatchers.IO)
     }
 
     @Provides
     @Singleton
     fun provideRepository(dataSource: DatabaseDataSource): DatabaseRepository {
-        return DatabaseRepositoryImpl(dataSource)
+        return DatabaseRepositoryImpl(dataSource, Dispatchers.IO)
     }
 
 }
