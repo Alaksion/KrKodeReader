@@ -4,6 +4,7 @@ plugins {
     id("com.google.devtools.ksp") version ("1.6.10-1.0.2")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("io.gitlab.arturbosch.detekt") version libs.versions.detekt.get()
 }
 
 android {
@@ -97,4 +98,15 @@ kotlin {
 
 kapt {
     correctErrorTypes = true
+}
+
+detekt {
+    parallel = true
+
+    // Define the detekt configuration(s) you want to use.
+    // Defaults to the default detekt configuration.
+    config = files("path/to/config.yml")
+
+    // Specifying a baseline file. All findings stored in this file in subsequent runs of detekt.
+    baseline = file("path/to/baseline.xml")
 }
