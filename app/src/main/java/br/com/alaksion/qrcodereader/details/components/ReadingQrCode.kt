@@ -18,33 +18,35 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.google.zxing.qrcode.QRCodeWriter
 
+private const val ReadingDimension = 600
+
 @Composable
 fun ReadingQrCode(
-    modifier: Modifier = Modifier,
-    code: String
+        modifier: Modifier = Modifier,
+        code: String
 ) {
     val dimensions = LocalDimesions.current
     val bitmap = generateBitmap(code)
 
     bitmap?.let {
         Box(
-            modifier = modifier
-                .border(
-                    border = BorderStroke(
-                        width = 20.dp, brush = Brush.linearGradient(
-                            colors = listOf(
-                                MaterialTheme.colors.primaryVariant,
-                                MaterialTheme.colors.primary,
-                            )
+                modifier = modifier
+                        .border(
+                                border = BorderStroke(
+                                        width = 20.dp, brush = Brush.linearGradient(
+                                        colors = listOf(
+                                                MaterialTheme.colors.primaryVariant,
+                                                MaterialTheme.colors.primary,
+                                        )
+                                )
+                                ),
+                                shape = MaterialTheme.shapes.large
                         )
-                    ),
-                    shape = MaterialTheme.shapes.large
-                )
         ) {
             Image(
-                modifier = Modifier.padding(dimensions.Padding.medium),
-                bitmap = bitmap.asImageBitmap(),
-                contentDescription = ""
+                    modifier = Modifier.padding(dimensions.Padding.medium),
+                    bitmap = bitmap.asImageBitmap(),
+                    contentDescription = ""
             )
         }
     }
@@ -53,7 +55,7 @@ fun ReadingQrCode(
 internal fun generateBitmap(code: String): Bitmap? {
     val writer = QRCodeWriter()
     return try {
-        val bitMatrix = writer.encode(code, BarcodeFormat.QR_CODE, 600, 600)
+        val bitMatrix = writer.encode(code, BarcodeFormat.QR_CODE, ReadingDimension, ReadingDimension)
         val width = bitMatrix.width
         val height = bitMatrix.height
         val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
@@ -64,7 +66,8 @@ internal fun generateBitmap(code: String): Bitmap? {
         }
         bmp
     } catch (e: WriterException) {
-        e.printStackTrace()
+        // TODO -> Replace with logger
+        print(e.localizedMessage)
         null
     }
 }

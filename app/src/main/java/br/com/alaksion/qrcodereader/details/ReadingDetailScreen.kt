@@ -1,8 +1,18 @@
 package br.com.alaksion.qrcodereader.details
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,7 +32,11 @@ import br.com.alaksion.core_ui.components.Separator
 import br.com.alaksion.core_ui.providers.activity.GetActivity
 import br.com.alaksion.core_ui.providers.dimensions.LocalDimesions
 import br.com.alaksion.qrcodereader.R
-import br.com.alaksion.qrcodereader.details.components.*
+import br.com.alaksion.qrcodereader.details.components.DeleteReadingBottomSheet
+import br.com.alaksion.qrcodereader.details.components.ReadingDetailsActions
+import br.com.alaksion.qrcodereader.details.components.ReadingDetailsCodeValue
+import br.com.alaksion.qrcodereader.details.components.ReadingDetailsTopBar
+import br.com.alaksion.qrcodereader.details.components.ReadingQrCode
 import br.com.alaksion.qrcodereader.home.HomeViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
